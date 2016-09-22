@@ -9,7 +9,7 @@ class LimelightRESTWrapper(object):
         super(LimelightRESTWrapper, self).__init__()
         self.llnw_security_principal = limelight_user_id
         self.api_key = api_key
-    #
+
     @classmethod
     def generate_security_token(cls, url, http_method, api_key, query_params=None, post_data=None, timestamp=None):
         datastring = http_method + url
@@ -20,7 +20,7 @@ class LimelightRESTWrapper(object):
             datastring += post_data
         token = hmac.new(bytes.fromhex(api_key), msg=datastring.encode("utf-8"), digestmod=hashlib.sha256).hexdigest()
         return token
-    #
+
     def api_call(self, endpoint, query_params):
         if endpoint == None or endpoint.strip() == "":
             raise Exception("REST API endpoint is needed")
