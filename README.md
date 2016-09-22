@@ -1,5 +1,5 @@
 # limelight_rest_wrapper
-Wrapper of Limelight REST API
+Wrapper of Limelight REST API (supports Python 3 only)
 
 Usage:
 ```
