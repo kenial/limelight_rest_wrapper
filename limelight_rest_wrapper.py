@@ -1,3 +1,4 @@
+import sys
 import time
 import urllib
 import hmac
@@ -19,14 +20,22 @@ class LimelightRESTWrapper(object):
         datastring += timestamp
         if post_data != None:
             datastring += post_data
-        token = hmac.new(bytes.fromhex(api_key), msg=datastring.encode("utf-8"), digestmod=hashlib.sha256).hexdigest()
+        # if python 3
+        if sys.version_info > (3,0):
+            token = hmac.new(bytes.fromhex(api_key), msg=datastring.encode("utf-8"), digestmod=hashlib.sha256).hexdigest()
+        else:
+            token = hmac.new(api_key.decode("hex"), msg=datastring, digestmod=hashlib.sha256).hexdigest()
         return token
 
     def api_get(self, endpoint, query_params):
         if endpoint == None or endpoint.strip() == "":
             raise Exception("REST API endpoint is needed")
         cur_timestamp = str(int(round(time.time()*1000)))
-        url_encoded_query_params = urllib.parse.urlencode(query_params)
+        # if python 3
+        if sys.version_info > (3,0):
+            url_encoded_query_params = urllib.parse.urlencode(query_params)
+        else:
+            url_encoded_query_params = urllib.urlencode(query_params)
         security_token = LimelightRESTWrapper.generate_security_token(url=endpoint, http_method="GET", query_params=url_encoded_query_params, api_key=self.api_key, timestamp=cur_timestamp)
         headers = {
             'Content-type': 'application/json',
