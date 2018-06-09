@@ -44,7 +44,7 @@ class LimelightRESTWrapper(object):
             'X-llnw-security-token': security_token,
             'X-llnw-security-timestamp': cur_timestamp,
         }
-        res = requests.get(endpoint, params=query_params, headers=headers)
+        res = requests.get(endpoint, params=query_params, headers=headers, verify=False)
         return res
 
     def api_post(self, endpoint, post_data):
@@ -60,5 +60,5 @@ class LimelightRESTWrapper(object):
             'X-llnw-security-token': security_token,
             'X-llnw-security-timestamp': cur_timestamp,
         }
-        res = requests.post(endpoint, data=post_data_json, headers=headers)
+        res = requests.post(endpoint, data=post_data_json, headers=headers, verify=False)
         return res
